@@ -132,6 +132,8 @@
 				array_push($fita, $value->tipo);
 			}	
 
+			print_r($fita).'<br><br>';
+
 			sintatico($parsing, $fita, $xml);
 		
 		?>

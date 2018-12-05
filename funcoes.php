@@ -680,7 +680,7 @@
 		array_push($pilha, 0);
 		$erro = 0;
 
-		while($erro != 1){
+		while($erro != 1 AND $acao != 4){
 			
 			if($reduziu == 0){
 				$ultimo = end($pilha);
@@ -688,7 +688,7 @@
 			}
 			else{
 				$simbolo = end($pilha);
-				$ultimo = $posicao;
+				$ultimo = $auxreducao;
 				$reduziu = 0;
 			}
 
@@ -712,11 +712,11 @@
 				$reduziu = 0;
 			}
 			else if($acao ==  2){
-				foreach($xml->m_Production->Production as $i) {
-					if(xml_attribute($i, 'Index') == $ultimo){						
-						$size = xml_attribute($i, 'SymbolCount');
+				foreach($xml->m_Production->Production as $prod) {
+					if(xml_attribute($prod, 'Index') == $estado){						
+						$size = xml_attribute($prod, 'SymbolCount');
 						$size = $size * 2;
-						$naoterminal = xml_attribute($i, 'NonTerminalIndex');
+						$naoterminal = xml_attribute($prod, 'NonTerminalIndex');
 					}
 				}
 
@@ -726,7 +726,7 @@
 						$size--;
 					}
 					array_push($pilha, $naoterminal);
-					$posicao = $pilha[count($pilha)-2];
+					$auxreducao = $pilha[count($pilha)-2];
 
 					$reduziu = 1;
 				}
@@ -738,15 +738,20 @@
 			}
 			else if($acao == 3){
 				array_push($pilha, $estado);
-				$i+=0; //move a fita
-				$posicao = $i;
 				$reduziu = 0;
 			}
 
 			
 		}
 
-	
+		
+		if($acao == 4){
+			echo 'Aceita';
+		}
+
+		if($erro == 1){
+			echo 'Erro sintático';
+		}
 		return 0;
 	}
 	
