@@ -532,7 +532,6 @@
 	} 
 
 	function lexico($linha, $valorlinha, $afd, $tabSimb){
-		$linha = htmlentities($linha, null, 'utf-8');
 		$linha = str_replace("&nbsp;"," ",$linha);
 		$linha = str_replace("\n", "", $linha);
 		$linha = str_replace("\r", "", $linha);
@@ -616,6 +615,10 @@
 					$lexico->tipo = $palavra;
 				}
 				//Falta verificar o numerico
+				else if(is_numeric($palavra)) { 
+					$lexico->tipo = 'digit'; 
+					//verifica aqui 
+				}
 				else{
 					$lexico->tipo = 'Id';
 				}
@@ -671,7 +674,7 @@
 		return $parsing;
 	}
 
-	function sintatico($parsing, $fita, $xml){
+	function sintatico($parsing, $xml){
 		$acao = 0;
 		$pilha = array();
 		$posicao = 0;
@@ -684,7 +687,7 @@
 			
 			if($reduziu == 0){
 				$ultimo = end($pilha);
-				$simbolo = array_search($fita[$posicao], $GLOBALS['parserSimbolos']);
+				$simbolo = array_search($GLOBALS['TS'][$posicao]->tipo, $GLOBALS['parserSimbolos']);
 			}
 			else{
 				$simbolo = end($pilha);
@@ -743,14 +746,13 @@
 
 			
 		}
-
-		
+	
 		if($acao == 4){
 			echo 'Aceita';
 		}
 
 		if($erro == 1){
-			echo 'Erro sintático';
+			echo 'Erro sintático na linha '.$GLOBALS['TS'][$posicao-1]->linha;
 		}
 		return 0;
 	}

@@ -41,31 +41,17 @@
 			   $afnd =  insereAFND($afnd, $linha, $tabSimb);
 			}
 
-			// echo '<h2> AFND </h2>';
-			//printaAF($afnd, $tabSimb);
-
 		 	$afnd = transicoesvazias($afnd, $tabSimb);
 
-		 	//echo '<h2> AFND - Sem Transições Vazias </h2>';
-		 	//printaAF($afnd, $tabSimb);
-
-		 	//echo '<h2> AFD  </h2>';
 		 	$afd = determinizar($afnd, $tabSimb);
-
-			//printaAF($afd, $tabSimb);
 
 			$afd = eliminamortos($afd, $tabSimb);
 
 			echo '<h2> AFD - Eliminação de Mortos</h2>';
+
 			printaAF($afd, $tabSimb);
 
-			//echo '<h2> Estados Equivalentes </h2>';
-			//equivalencia($afd, $tabSimb);
-
-			//leitura d
 			$lines = file ('lexico.txt');
-			
-			// Percorre o array, pegando cada linha da entrada
 
 			$i = 1;
 			$GLOBALS['id'] = 1; //Ultimo id, para criar os id do lexico
@@ -129,12 +115,13 @@
 
 			$fita = array();
 			foreach ($GLOBALS['TS'] as $value) {
-				array_push($fita, $value->tipo);
+				echo '('.$value->rotulo.' '.$value->tipo.')';
 			}	
 
-			print_r($fita).'<br><br>';
+			print_r($fita);
+			echo '<br>';
 
-			sintatico($parsing, $fita, $xml);
+			sintatico($parsing, $xml);
 		
 		?>
 	</body>
